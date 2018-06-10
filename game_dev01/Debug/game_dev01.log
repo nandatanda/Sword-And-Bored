@@ -1,0 +1,6 @@
+﻿  game_source.cpp
+d:\documents\computer science\projects\game_dev01\game_dev01\game_source.cpp(19): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+d:\documents\computer science\projects\game_dev01\game_dev01\game_source.cpp(46): warning C4101: 'enemy_wins': unreferenced local variable
+d:\documents\computer science\projects\game_dev01\game_dev01\game_source.cpp(29): warning C4101: 'enemy_level': unreferenced local variable
+d:\documents\computer science\projects\game_dev01\game_dev01\game_source.cpp(188): warning C4715: 'read_story': not all control paths return a value
+  game_dev01.vcxproj -> D:\Documents\Computer Science\Projects\game_dev01\Debug\game_dev01.exe
