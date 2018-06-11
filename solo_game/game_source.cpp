@@ -13,6 +13,11 @@ int check_damage(int, int, int);
 std::string get_profession(void);
 std::string get_story(int);
 void read_story_block(int starting_line, int ending_line);
+int get_evasion(std::string profession, int level);
+int get_attack(std::string profession, int level);
+int get_maximum_health(std::string profession, int level);
+int get_defense(std::string profession, int level);
+int get_strength(std::string profession, int level);
 
 
 void main()
@@ -25,7 +30,7 @@ void main()
 	int player_defense = 0;
 	int player_strength = 0;
 	int player_maximum_health = 0;
-	int enemy_level;
+	int enemy_level = 0;
 	int enemy_condition = 0;
 	int enemy_evasion = 0;
 	int enemy_current_health = 0;
@@ -34,9 +39,9 @@ void main()
 	int enemy_strength = 0;
 	int enemy_maximum_health = 0;
 	int damage_this_turn = 0;
-	std::string player_profession;
 	std::string player_name;
-	std::string enemy_name;
+	std::string enemy_profession;
+	std::string player_profession;
 	std::string divider = "\n\n\n\n\n";
 	bool attack_succeeds = true;
 	bool is_player_turn = true;
@@ -60,16 +65,26 @@ void main()
 	read_story_block(4, 4);
 	read_story_block(5, 5);
 	std::cout << divider;
-	
-	//level scaling will go here
-	enemy_name = "Goblin";
-	player_evasion = 10, enemy_evasion = 10;
-	player_attack = 5, enemy_attack = 5;
-	player_current_health = 100, enemy_current_health = 10;
-	player_defense = 5, enemy_defense = 5;
-	player_strength = 30, enemy_strength = 30;
 
-	std::cout << "- " << enemy_name << "   \t\t|\tHealth: " << enemy_current_health << "\tStatus: " << enemy_condition;
+	//scale the player level
+	player_level = 15;
+	player_evasion = get_evasion(player_profession, player_level);
+	player_attack = get_attack(player_profession, player_level);
+	player_maximum_health = get_maximum_health(player_profession, player_level);
+	player_defense = get_defense(player_profession, player_level);
+	player_strength = get_strength(player_profession, player_level);
+	player_current_health = player_maximum_health;
+
+	//enemy scaling will go here
+	enemy_profession = "goblin";
+	enemy_maximum_health = 10;
+	enemy_defense = 5;
+	enemy_strength = 30;
+	enemy_evasion = 10;
+	enemy_attack = 5;
+	enemy_current_health = enemy_maximum_health;
+
+	std::cout << "- " << enemy_profession << "   \t\t|\tHealth: " << enemy_current_health << "\tStatus: " << enemy_condition;
 	std::cout << "\n\n  " << player_name << "   \t\t|\tHealth: " << player_current_health << "\tStatus: " << player_conditions << " ";
 	std::cin.get();
 
@@ -82,17 +97,17 @@ void main()
 			{
 				int damage_roll = (roll_die(20) + player_strength);
 				damage_this_turn = check_damage(damage_roll, enemy_defense, enemy_condition);
-				std::cout << "\n- You hit " << enemy_name << " for " << damage_this_turn << " damage.";
+				std::cout << "\n- You hit " << enemy_profession << " for " << damage_this_turn << " damage.";
 			}
 			else
 			{
-				std::cout << "\n- You missed " << enemy_name << ", dealing no damage.";
+				std::cout << "\n- You missed " << enemy_profession << ", dealing no damage.";
 			}
 			std::cin.get();
 			player_wins = check_win(enemy_current_health, damage_this_turn);
 			if (player_wins)
 			{
-				std::cout << "\n- You have slain " << enemy_name << "! ";
+				std::cout << "\n- You have slain " << enemy_profession << "! ";
 			}
 			else if (player_conditions > 0)
 			{
@@ -210,4 +225,109 @@ void read_story_block(int starting_line, int ending_line)
 		std::cout << "\n" << get_story(i) << " ";
 	}
 	std::cin.get();
+}
+int get_evasion(std::string profession, int level)
+{
+	int evasion_result = 0;
+	if (profession == "warrior")
+	{
+		evasion_result = 10 + (2 * level);
+	}
+	else if (profession == "mage")
+	{
+		evasion_result = 10 + (1 * level);
+	}
+	else if (profession == "rogue")
+	{
+		evasion_result = 10 + (3 * level);
+	}
+	else if (profession == "goblin")
+	{
+		evasion_result = 10 + (1 * level);
+	}
+	return evasion_result;
+}
+int get_attack(std::string profession, int level)
+{
+	int attack_result = 0;
+	if (profession == "warrior")
+	{
+		attack_result = 10 + (1 * level);
+	}
+	else if (profession == "mage")
+	{
+		attack_result = 10 + (2 * level);
+	}
+	else if (profession == "rogue")
+	{
+		attack_result = 10 + (3 * level);
+	}
+	else if (profession == "goblin")
+	{
+		attack_result = 10 + (1 * level);
+	}
+	return attack_result;
+}
+int get_maximum_health(std::string profession, int level)
+{
+	int get_maximum_health = 0;
+	if (profession == "warrior")
+	{
+		get_maximum_health = 10 + (9 * level);
+	}
+	else if (profession == "mage")
+	{
+		get_maximum_health = 10 + (5 * level);
+	}
+	else if (profession == "rogue")
+	{
+		get_maximum_health = 10 + (7 * level);
+	}
+	else if (profession == "goblin")
+	{
+		get_maximum_health = 10 + (5 * level);
+	}
+	return get_maximum_health;
+}
+int get_defense(std::string profession, int level)
+{
+	int get_player_defense = 0;
+	if (profession == "warrior")
+	{
+		get_player_defense = 10 + (3 * level);
+	}
+	else if (profession == "mage")
+	{
+		get_player_defense = 10 + (2 * level);
+	}
+	else if (profession == "rogue")
+	{
+		get_player_defense = 10 + (1 * level);
+	}
+	else if (profession == "goblin")
+	{
+		get_player_defense = 10 + (1 * level);
+	}
+	return get_player_defense;
+}
+int get_strength(std::string profession, int level)
+{
+	int get_strength = 0;
+	if (profession == "warrior")
+	{
+		get_strength = 10 + (2 * level);
+	}
+	else if (profession == "mage")
+	{
+		get_strength = 10 + (3 * level);
+	}
+	else if (profession == "rogue")
+	{
+		get_strength = 10 + (1 * level);
+	}
+	else if (profession == "goblin")
+	{
+		get_strength = 10 + (1 * level);
+	}
+	return get_strength;
 }
