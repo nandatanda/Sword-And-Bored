@@ -1,4 +1,4 @@
 ﻿  game_source.cpp
-c:\users\aelay\documents\github\solo_game\solo_game\game_source.cpp(50): warning C4101: 'enemy_wins': unreferenced local variable
+c:\users\aelay\documents\github\solo_game\solo_game\game_source.cpp(25): warning C4101: 'player_experience': unreferenced local variable
   solo_game.vcxproj -> C:\Users\aelay\Documents\GitHub\solo_game\Debug\solo_game.exe
   solo_game.vcxproj -> C:\Users\aelay\Documents\GitHub\solo_game\Debug\solo_game.pdb (Partial PDB)

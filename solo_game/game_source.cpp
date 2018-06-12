@@ -32,7 +32,7 @@ void main()
 	int player_strength = 0;
 	int player_maximum_health = 0;
 	int enemy_level = 0;
-	int enemy_condition = 0;
+	int enemy_conditions = 0;
 	int enemy_evasion = 0;
 	int enemy_current_health = 0;
 	int enemy_attack = 0;
@@ -41,6 +41,7 @@ void main()
 	int enemy_maximum_health = 0;
 	int damage_this_turn = 0;
 	std::string player_name;
+	std::string enemy_name;
 	std::string enemy_profession;
 	std::string player_profession;
 	std::string divider = "\n\n\n\n\n";
@@ -57,7 +58,7 @@ void main()
 	std::cout << divider;
 	std::cout << "-  Which profession strikes your fancy?\n\n1) Warrior\n\n2) Rogue\n\n3) Mage\n\n>  ";
 	player_profession = get_profession();
-	std::cout << "\n\n\n\n\n" << "-- PROTECC & ATTACC! : A TALE OF TWO LULZ -- ";
+	std::cout << "\n\n\n\n\n" << "-- ATTACK & PROTECC! : A TALE OF TWO LULZ -- ";
 	std::cin.get();
 	std::cin.ignore();
 		
@@ -68,7 +69,7 @@ void main()
 	std::cout << divider;
 
 	//scale the player level
-	player_level = 15;
+	player_level = 8;
 	player_evasion = get_evasion(player_profession, player_level);
 	player_attack = get_attack(player_profession, player_level);
 	player_maximum_health = get_maximum_health(player_profession, player_level);
@@ -77,16 +78,18 @@ void main()
 	player_current_health = player_maximum_health;
 
 	//enemy scaling will go here
+	enemy_name = "Goblin Guide";
 	enemy_profession = "goblin";
+	enemy_level = 5;
+	enemy_evasion = 10;
+	enemy_attack = 5;
 	enemy_maximum_health = 10;
 	enemy_defense = 5;
 	enemy_strength = 30;
-	enemy_evasion = 10;
-	enemy_attack = 5;
 	enemy_current_health = enemy_maximum_health;
 
-	std::cout << "- " << enemy_profession << "   \t\t|\tHealth: " << enemy_current_health << "\tStatus: " << enemy_condition;
-	std::cout << "\n\n  " << player_name << "   \t\t|\tHealth: " << player_current_health << "\tStatus: " << player_conditions << " ";
+	std::cout << "-  " << enemy_name << "   \t\t|\tHealth: " << enemy_current_health << "\tStatus: " << enemy_conditions;
+	std::cout << "\n\n   " << player_name << "   \t\t|\tHealth: " << player_current_health << "\tStatus: " << player_conditions << " ";
 	std::cin.get();
 
 	while (combat_continues)
@@ -97,27 +100,29 @@ void main()
 			if (attack_succeeds)
 			{
 				int damage_roll = (roll_die(20) + player_strength);
-				damage_this_turn = check_damage(damage_roll, enemy_defense, enemy_condition);
-				std::cout << "\n- You hit " << enemy_profession << " for " << damage_this_turn << " damage.";
+				damage_this_turn = check_damage(damage_roll, enemy_defense, enemy_conditions);
+				std::cout << "\n\n-  You hit " << enemy_name << " for " << damage_this_turn << " damage.";
 			}
 			else
 			{
-				std::cout << "\n- You missed " << enemy_profession << ", dealing no damage.";
+				std::cout << "\n-  You missed " << enemy_name << ", dealing no damage.";
 			}
 			std::cin.get();
 			player_wins = check_win(enemy_current_health, damage_this_turn);
 			if (player_wins)
 			{
-				std::cout << "\n- You have slain " << enemy_profession << "! ";
+				std::cout << "\n-  You have slain " << enemy_name << "! ";
+				combat_continues = false;
 			}
 			else if (player_conditions > 0)
 			{
 				//evaluate condi on player one
 				damage_this_turn = player_conditions * 2;
-				std::cout << "\n- You take " << damage_this_turn << " damage from status effects.";
+				std::cout << "\n-  You take " << damage_this_turn << " damage from status effects.";
 			}
-
+			
 			is_player_turn = false;
+			std::cin.get();
 		}
 		else
 		{
@@ -126,45 +131,31 @@ void main()
 			{
 				int damage_roll = (roll_die(20) + enemy_strength);
 				damage_this_turn = check_damage(damage_roll, player_defense, player_conditions);
-				std::cout << "\n-  " << enemy_profession << " hit you for " << damage_this_turn << " damage. ";
+				std::cout << "\n\n-  " << enemy_name << " hit you for " << damage_this_turn << " damage. ";
 			}
 			else
 			{
-				std::cout << "\n-  " << enemy_profession << ", missed, dealing no damage.";
+				std::cout << "\n\n-  " << enemy_name << " missed, dealing no damage.";
 			}
-			std::cin.get();
 			enemy_wins = check_win(player_current_health, damage_this_turn);
 			if (enemy_wins)
 			{
-				std::cout << "\n- You have been slain by " << enemy_profession << "! ";
+				std::cout << "\n- You have been slain by " << enemy_name << "! ";
+				combat_continues = false;
 			}
-			else if (player_conditions > 0)
+			else if (enemy_conditions > 0)
 			{
-				//evaluate condi on player one
-				damage_this_turn = player_conditions * 2;
-				std::cout << "\n- You take " << damage_this_turn << " damage from status effects.";
+				//evaluate condi on enemy
+				damage_this_turn = enemy_conditions * 2;
+				std::cout << "\n-  " << enemy_name << " takes " << damage_this_turn << " damage from status effects. ";
 			}
 
 			is_player_turn = true;
+			std::cin.get();
 		}
-		/*
-
-		player two's turn
-
-		*/
 	}
 	std::cout << "\n\n";
-
 }
-
-
-
-
-
-
-
-
-
 
 int roll_die(int die_sides)
 {
