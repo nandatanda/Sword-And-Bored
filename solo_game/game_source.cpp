@@ -22,6 +22,7 @@ int get_strength(std::string profession, int level);
 
 void main()
 {
+	int player_experience;
 	int player_level = 0;
 	int player_conditions = 1; //set at one for testing condi system
 	int player_evasion = 0;
@@ -120,7 +121,31 @@ void main()
 		}
 		else
 		{
+			attack_succeeds = check_p2hit(enemy_attack, player_evasion);
+			if (attack_succeeds)
+			{
+				int damage_roll = (roll_die(20) + enemy_strength);
+				damage_this_turn = check_damage(damage_roll, player_defense, player_conditions);
+				std::cout << "\n-  " << enemy_profession << " hit you for " << damage_this_turn << " damage. ";
+			}
+			else
+			{
+				std::cout << "\n-  " << enemy_profession << ", missed, dealing no damage.";
+			}
+			std::cin.get();
+			enemy_wins = check_win(player_current_health, damage_this_turn);
+			if (enemy_wins)
+			{
+				std::cout << "\n- You have been slain by " << enemy_profession << "! ";
+			}
+			else if (player_conditions > 0)
+			{
+				//evaluate condi on player one
+				damage_this_turn = player_conditions * 2;
+				std::cout << "\n- You take " << damage_this_turn << " damage from status effects.";
+			}
 
+			is_player_turn = true;
 		}
 		/*
 
