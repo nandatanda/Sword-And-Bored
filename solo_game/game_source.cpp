@@ -8,7 +8,6 @@
 int roll_die(int);
 bool check_p1hit(int, int);
 bool check_p2hit(int, int);
-bool check_win(int, int);
 int check_damage(int, int, int);
 int reduce_health(int health, int damage);
 std::string get_profession(void);
@@ -25,7 +24,7 @@ void main()
 {
 	int player_experience;
 	int player_level = 0;
-	int player_conditions = 0; //set at one for testing condi system
+	int player_conditions = 1; //set at one for testing condi system
 	int player_evasion = 0;
 	int player_attack = 0;
 	int player_current_health = 0;
@@ -34,7 +33,7 @@ void main()
 	int player_maximum_health = 0;
 	int player_condition_damage = 0;
 	int enemy_level = 0;
-	int enemy_conditions = 0; //set at one for testing condi system
+	int enemy_conditions = 1; //set at one for testing condi system
 	int enemy_evasion = 0;
 	int enemy_current_health = 0;
 	int enemy_attack = 0;
@@ -52,8 +51,8 @@ void main()
 	bool attack_succeeds = true;
 	bool is_player_turn = true;
 	bool combat_continues = true;
-	bool player_wins;
-	bool enemy_wins;
+	bool player_wins = false;
+	bool enemy_wins = false;
 
 	srand((unsigned int)time(NULL));
 
@@ -62,17 +61,16 @@ void main()
 	std::cout << divider;
 	std::cout << "-  Which profession strikes your fancy?\n\n1) Warrior\n2) Rogue\n3) Mage\n\n>  ";
 	player_profession = get_profession();
-	std::cout << "\n\n\n\n\n" << "-- ATTACK & PROTECC! : A TALE OF TWO LULZ -- ";
+	std::cout << divider << "-- ATTACK & PROTECC! : A TALE OF TWO LULZ -- ";
 	std::cin.get();
 	std::cin.ignore();
+	std::cout << "\n";
 		
-	//game begins
 	read_story_block(1, 3);
 	read_story_block(4, 4);
 	read_story_block(5, 5);
-	std::cout << divider;
+	std::cout << "\n\n\n";
 
-	//scale the player level
 	player_level = 8;
 	player_evasion = get_evasion(player_profession, player_level);
 	player_attack = get_attack(player_profession, player_level);
@@ -81,12 +79,11 @@ void main()
 	player_strength = get_strength(player_profession, player_level);
 	player_current_health = player_maximum_health;
 
-	//enemy scaling will go here
-	enemy_name = "Goblin Guide";
+	enemy_name = "Goblin Recruit";
 	enemy_profession = "goblin";
 	enemy_level = 5;
-	enemy_evasion = 10;
-	enemy_attack = 5;
+	enemy_evasion = get_evasion(enemy_profession, enemy_level);
+	enemy_attack = get_attack(enemy_profession, enemy_level);
 	enemy_maximum_health = 20;
 	enemy_defense = 5;
 	enemy_strength = 30;
@@ -96,36 +93,34 @@ void main()
 	{
 		if (is_player_turn)
 		{
-			std::cout << "-  " << enemy_name << "\n   Health: " << enemy_current_health << "\t|\tPoison: " << enemy_conditions;
-			std::cout << "\n\n-  " << player_name << "\n   Health: " << player_current_health << "\t|\tPoison: " << enemy_conditions;
-			std::cin.get();
+			std::cout << "\n\n-  [" << enemy_name << "]\n\t\t\t" << enemy_current_health << "  |  " << enemy_conditions;
+			std::cout << "\n\n-  [" << player_name << "]\n\t\t\t" << player_current_health << "  |  " << enemy_conditions << " ";
 
 			attack_succeeds = check_p1hit(player_attack, enemy_evasion);
 			(attack_succeeds) ? damage_roll = (roll_die(20) + player_strength) : damage_roll = 0;
 			player_condition_damage = player_conditions * 2;
 			enemy_condition_damage = enemy_conditions * 2;
 			damage_this_turn = check_damage(damage_roll, enemy_defense, enemy_condition_damage);
-			std::cout << "DAMAGE THIS TURN IS " << damage_this_turn;
-			std::cout << "PLAYER CONDI IS " << player_condition_damage;
-			std::cout << "ENEMY CONDI IS " << enemy_condition_damage;
 			player_current_health = reduce_health(player_current_health, player_condition_damage);
 			enemy_current_health = reduce_health(enemy_current_health, damage_this_turn);
-			player_wins = check_win(enemy_current_health, damage_this_turn);
-			enemy_wins = check_win(player_current_health, player_condition_damage);
+			(enemy_current_health <= 0) ? player_wins = true : player_wins = false;
+			(player_current_health <= 0) ? enemy_wins = true : enemy_wins = false;
+
+			std::cin.get();
 
 			if (attack_succeeds)
 			{
-				std::cout << "\n\n-  You hit " << enemy_name << " for " << damage_this_turn << " damage.";
+				std::cout << "\n\n-  You hit " << enemy_name << " for " << (damage_this_turn - enemy_condition_damage) << " damage. ";
 			}
 			else
 			{
-				std::cout << "\n-  You missed " << enemy_name << ", dealing no damage.";
+				std::cout << "\n-  You missed " << enemy_name << ", dealing no damage. ";
 			}
 			
 			std::cin.get();
 			if (player_conditions)
 			{
-				std::cout << "   You take " << player_condition_damage << " damage from status effects.";
+				std::cout << "   You take " << player_condition_damage << " damage from status effects. ";
 				std::cin.get();
 			}
 			if (enemy_conditions)
@@ -153,40 +148,33 @@ void main()
 			}
 			
 			is_player_turn = false;
-			std::cin.get();
+			
 		}
 		else
 		{
-			std::cout << "-  " << enemy_name << "\n   Health: " << enemy_current_health << "\t|\tPoison: " << enemy_conditions;
-			std::cout << "\n\n-  " << player_name << "\n   Health: " << player_current_health << "\t|\tPoison: " << enemy_conditions;
-			std::cin.get();
-
 			attack_succeeds = check_p2hit(enemy_attack, player_evasion);
 			(attack_succeeds) ? damage_roll = (roll_die(20) + player_strength) : damage_roll = 0;
 			player_condition_damage = player_conditions * 2;
 			enemy_condition_damage = enemy_conditions * 2;
 			damage_this_turn = check_damage(damage_roll, player_defense, player_condition_damage);
-			std::cout << "DAMAGE THIS TURN IS " << damage_this_turn;
-			std::cout << "PLAYER CONDI IS " << player_condition_damage;
-			std::cout << "ENEMY CONDI IS " << enemy_condition_damage;
  			enemy_current_health = reduce_health(enemy_current_health, enemy_condition_damage);
 			player_current_health = reduce_health(player_current_health, damage_this_turn);
-			enemy_wins = check_win(player_current_health, damage_this_turn);
-			player_wins = check_win(enemy_current_health, enemy_condition_damage);
+			(enemy_current_health <= 0) ? player_wins = true : player_wins = false;
+			(player_current_health <= 0) ? enemy_wins = true : enemy_wins = false;
 
 			if (attack_succeeds)
 			{
-				std::cout << "\n\n-  "<< enemy_name << " hit you for " << damage_this_turn << " damage.";
+				std::cout << "\n\n-  "<< enemy_name << " hit you for " << (damage_this_turn - player_condition_damage) << " damage. ";
 			}
 			else
 			{
-				std::cout << "\n-  " << enemy_name << " missed, dealing no damage.";
+				std::cout << "\n-  " << enemy_name << " missed, dealing no damage. ";
 			}
 
 			std::cin.get();
 			if (player_conditions)
 			{
-				std::cout << "   You take " << player_condition_damage << " damage from status effects.";
+				std::cout << "   You take " << player_condition_damage << " damage from status effects. ";
 				std::cin.get();
 			}
 			if (enemy_conditions)
@@ -214,9 +202,9 @@ void main()
 			}
 
 			is_player_turn = true;
-			std::cin.get();
 		}
 	}
+
 	std::cout << "\n\n";
 }
 
@@ -238,13 +226,6 @@ bool check_p2hit(int enemy_attack, int player_evasion)
 	int attack_roll = (roll_die(20) + enemy_attack);
 	(attack_roll > player_evasion) ? hit_result = true : hit_result = false;
 	return hit_result;
-}
-bool check_win(int health, int damage)
-{
-	bool win_now;
-	int health_result = health - damage;
-	(health_result <= 0) ? win_now = true : win_now = false;
-	return win_now;
 }
 int check_damage(int damage, int defense, int condition_damage)
 {
@@ -409,7 +390,6 @@ int get_strength(std::string profession, int level)
 	}
 	return get_strength;
 }
-
 int reduce_health(int health, int damage)
 {
 	int health_result = health - damage;
