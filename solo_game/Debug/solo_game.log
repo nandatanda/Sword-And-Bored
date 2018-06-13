@@ -1,3 +1,4 @@
-﻿  game_source.cpp
-d:\documents\computer science\github\solo_game\solo_game\game_source.cpp(24): warning C4101: 'player_experience': unreferenced local variable
+﻿  game_functions.cpp
+  game_source.cpp
+  Generating Code...
   solo_game.vcxproj -> D:\Documents\Computer Science\GitHub\solo_game\Debug\solo_game.exe
