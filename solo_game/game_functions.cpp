@@ -31,6 +31,14 @@ bool check_win(int health)
 	}
 	return win_occurs;
 }
+std::string get_player_name(void)
+{
+	std::string player_name;
+	std::cout << "-  What is your name, brave adventurer?\n\n>  ";
+	std::cin >> player_name;
+	std::cout << "\n\n";
+	return player_name;
+}
 int check_damage(int damage, int defense, int condition_damage)
 {
 	int damage_result = (damage / defense) + condition_damage;
@@ -41,10 +49,24 @@ int reduce_health(int health, int damage)
 	int health_result = health - damage;
 	return health_result;
 }
-std::string get_profession(void)
+int get_damage_roll(bool attsck_succeeds, int strength)
+{
+	int damage_roll;
+	if (attsck_succeeds)
+	{
+		damage_roll = 5 * (roll_die(100) + strength);
+	}
+	else
+	{
+		damage_roll = 0;
+	}
+	return damage_roll;
+}
+std::string get_player_profession(void)
 {
 	int player_profession_selection = 0;
 	std::string player_profession;
+	std::cout << "-  Which profession strikes your fancy?\n\n1) Warrior\n2) Rogue\n3) Mage\n\n>  ";
 	std::cin >> player_profession_selection;
 	while (!std::cin >> player_profession_selection || player_profession_selection < 1 || player_profession_selection > 4)
 	{
@@ -86,6 +108,15 @@ std::string get_story(int line_number)
 		return "File not found.";
 	}
 }
+std::string make_space(int number_of_lines)
+{
+	std::string divider;
+	for (int i = 0; i < number_of_lines + 1; i++)
+	{
+		std::cout << "\n";
+	}
+	return divider;
+}
 void read_story_block(int starting_line, int ending_line)
 {
 	for (int i = starting_line; i < ending_line + 1; i++)
@@ -93,6 +124,21 @@ void read_story_block(int starting_line, int ending_line)
 		std::cout << "\n" << get_story(i) << " ";
 	}
 	std::cin.get();
+}
+void read_story_stage(int chapter, int stage)
+{
+	if (chapter == 1)
+	{
+		if (stage == 1)
+		{
+			read_story_block(1, 1);
+			make_space(1);
+			read_story_block(2, 4);
+			read_story_block(5, 5);
+			read_story_block(6, 6);
+			make_space(3);
+		}
+	}
 }
 int get_evasion(std::string profession, int level)
 {

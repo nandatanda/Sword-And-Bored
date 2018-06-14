@@ -30,6 +30,8 @@ void main()
 	int enemy_condition_damage = 0;
 	int damage_this_turn = 0;
 	int damage_roll = 0;
+	int story_chapter = 0;
+	int story_stage = 0;
 	std::string player_name;
 	std::string enemy_name;
 	std::string enemy_profession;
@@ -43,20 +45,19 @@ void main()
 
 	srand((unsigned int)time(NULL));
 
-	std::cout << "-  What is your name, brave adventurer?\n\n>  ";
-	std::cin >> player_name;
-	std::cout << divider;
-	std::cout << "-  Which profession strikes your fancy?\n\n1) Warrior\n2) Rogue\n3) Mage\n\n>  ";
-	player_profession = get_profession();
-	std::cout << divider << "-- ATTACK & PROTECC! : A TALE OF TWO LULZ -- ";
-	std::cin.get();
-	std::cin.ignore();
-	std::cout << "\n";
-		
-	read_story_block(1, 3);
-	read_story_block(4, 4);
-	read_story_block(5, 5);
-	std::cout << "\n\n\n";
+	story_chapter = 1;
+	player_name = get_player_name();
+	player_profession = get_player_profession();
+	make_space(5);
+
+	story_stage++;
+	if (story_stage > 10)
+	{
+		story_stage = 1;
+		story_chapter++;
+	}
+
+	read_story_stage(story_chapter, story_stage);
 
 	player_level = 30;
 	player_evasion = get_evasion(player_profession, player_level);
@@ -84,6 +85,7 @@ void main()
 			std::cout << "\n\n   [" << player_name << " | " << player_level << "]\n\t\t\t\t" << player_current_health << "  |  " << enemy_conditions << " ";
 
 			attack_succeeds = check_hit(player_attack, enemy_evasion);
+			damage_roll = get_damage_roll(attack_succeeds, player_strength);
 			(attack_succeeds) ? damage_roll = 5 * (roll_die(100) + player_strength) : damage_roll = 0;
 			player_condition_damage = player_conditions * 2;
 			enemy_condition_damage = enemy_conditions * 2;
@@ -141,7 +143,7 @@ void main()
 		else
 		{
 			attack_succeeds = check_hit(enemy_attack, player_evasion);
-			(attack_succeeds) ? damage_roll = 5 * (roll_die(100) + player_strength) : damage_roll = 0;
+			damage_roll = get_damage_roll(attack_succeeds, enemy_strength);
 			player_condition_damage = player_conditions * 2;
 			enemy_condition_damage = enemy_conditions * 2;
 			damage_this_turn = check_damage(damage_roll, player_defense, player_condition_damage);

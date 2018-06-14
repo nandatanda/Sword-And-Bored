@@ -1,11 +1,15 @@
 int roll_die(int);
 int check_damage(int, int, int);
 int reduce_health(int health, int damage);
+int get_damage_roll(bool attsck_succeeds, int strength);
 bool check_hit(int, int);
 bool check_win(int health);
-std::string get_profession(void);
+std::string get_player_name(void);
+std::string get_player_profession(void);
 std::string get_story(int);
+std::string make_space(int number_of_lines);
 void read_story_block(int starting_line, int ending_line);
+void read_story_stage(int chapter, int stage);
 int get_evasion(std::string profession, int level);
 int get_attack(std::string profession, int level);
 int get_maximum_health(std::string profession, int level);
