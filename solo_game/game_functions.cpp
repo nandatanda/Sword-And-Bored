@@ -31,6 +31,19 @@ bool check_win(int health)
 	}
 	return win_occurs;
 }
+bool flip_coin(void)
+{
+	bool coin_result;
+	if (roll_die(2) == 1)
+	{
+		coin_result = true;
+	}
+	else
+	{
+		coin_result = false;
+	}
+	return coin_result;
+}
 std::string get_player_name(void)
 {
 	std::string player_name;
@@ -117,7 +130,7 @@ std::string make_space(int number_of_lines)
 	}
 	return divider;
 }
-void read_story_block(int starting_line, int ending_line)
+void read_story_lines(int starting_line, int ending_line)
 {
 	for (int i = starting_line; i < ending_line + 1; i++)
 	{
@@ -125,19 +138,34 @@ void read_story_block(int starting_line, int ending_line)
 	}
 	std::cin.get();
 }
-void read_story_stage(int chapter, int stage)
+void read_story_scene(int chapter, int stage, int scene)
 {
 	if (chapter == 1)
 	{
 		if (stage == 1)
 		{
-			read_story_block(1, 1);
-			make_space(1);
-			read_story_block(2, 4);
-			read_story_block(5, 5);
-			read_story_block(6, 6);
-			make_space(3);
+			if (scene == 1)
+			{
+				read_story_lines(1, 1);
+				make_space(1);
+				read_story_lines(3, 5);
+				read_story_lines(7, 7);
+				read_story_lines(9, 9);
+				make_space(3);
+			}
+			if (scene == 2)
+			{
+				read_story_lines(11, 11);
+			}
 		}
+		if (stage == 2)
+		{
+			if (scene == 1)
+			{
+				read_story_lines(13, 13);
+			}
+		}
+
 	}
 }
 int get_evasion(std::string profession, int level)
