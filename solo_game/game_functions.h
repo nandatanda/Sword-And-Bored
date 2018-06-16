@@ -1,7 +1,7 @@
 int roll_die(int);
 int check_damage(int, int, int);
 int reduce_health(int health, int damage);
-int get_damage_roll(bool attsck_succeeds, int strength);
+int get_damage_roll(bool attsck_succeeds, int power);
 bool check_hit(int, int);
 bool check_win(int health);
 bool flip_coin(void);
@@ -15,4 +15,4 @@ int get_evasion(std::string profession, int level);
 int get_attack(std::string profession, int level);
 int get_maximum_health(std::string profession, int level);
 int get_defense(std::string profession, int level);
-int get_strength(std::string profession, int level);
+int get_power(std::string profession, int level);

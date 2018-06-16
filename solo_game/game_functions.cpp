@@ -62,12 +62,12 @@ int reduce_health(int health, int damage)
 	int health_result = health - damage;
 	return health_result;
 }
-int get_damage_roll(bool attsck_succeeds, int strength)
+int get_damage_roll(bool attsck_succeeds, int power)
 {
 	int damage_roll;
 	if (attsck_succeeds)
 	{
-		damage_roll = 5 * (roll_die(100) + strength);
+		damage_roll = 5 * (roll_die(100) + power);
 	}
 	else
 	{
@@ -134,9 +134,9 @@ void read_story_lines(int starting_line, int ending_line)
 {
 	for (int i = starting_line; i < ending_line + 1; i++)
 	{
-		std::cout << "\n" << get_story(i) << " ";
+		std::cout << get_story(i) << " \n";
 	}
-	std::cin.get();
+	getchar();
 }
 void read_story_scene(int chapter, int stage, int scene)
 {
@@ -151,18 +151,17 @@ void read_story_scene(int chapter, int stage, int scene)
 				read_story_lines(3, 5);
 				read_story_lines(7, 7);
 				read_story_lines(9, 9);
-				make_space(3);
 			}
 			if (scene == 2)
 			{
-				read_story_lines(11, 11);
+				read_story_lines(11, 12);
 			}
 		}
 		if (stage == 2)
 		{
 			if (scene == 1)
 			{
-				read_story_lines(13, 13);
+				read_story_lines(14, 14);
 			}
 		}
 
@@ -252,24 +251,24 @@ int get_defense(std::string profession, int level)
 	}
 	return get_player_defense;
 }
-int get_strength(std::string profession, int level)
+int get_power(std::string profession, int level)
 {
-	int get_strength = 0;
+	int get_power = 0;
 	if (profession == "warrior")
 	{
-		get_strength = 10 + (2 * level);
+		get_power = 10 + (2 * level);
 	}
 	else if (profession == "mage")
 	{
-		get_strength = 10 + (4 * level);
+		get_power = 10 + (4 * level);
 	}
 	else if (profession == "rogue")
 	{
-		get_strength = 10 + (1 * level);
+		get_power = 10 + (1 * level);
 	}
 	else if (profession == "goblin")
 	{
-		get_strength = 10 + (3 * (level / 2));
+		get_power = 10 + (3 * (level / 2));
 	}
-	return get_strength;
+	return get_power;
 }

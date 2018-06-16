@@ -8,9 +8,10 @@
 
 -  [Goblin]     : "Reeeeeeeeeeee!" 
 
--  [Narrator]: "This is stage 1, scene 2."
+-  [Narrator]   : "This is stage 1, scene 2. This phase will contain info and dialogue intended for after combat.
+                   If there is no after combat dialogue, this will be left blank.
 
--  [Narrator]: "This is stage 2, scene 1."
+-  [Narrator]   : "This is stage 2, scene 1."
 
 
 
