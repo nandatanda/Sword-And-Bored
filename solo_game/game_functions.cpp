@@ -49,7 +49,6 @@ std::string get_player_name(void)
 	std::string player_name;
 	std::cout << "-  What is your name, brave adventurer?\n\n>  ";
 	std::cin >> player_name;
-	std::cout << "\n\n";
 	return player_name;
 }
 int check_damage(int damage, int defense, int condition_damage)
@@ -124,7 +123,7 @@ std::string get_story(int line_number)
 std::string make_space(int number_of_lines)
 {
 	std::string divider;
-	for (int i = 0; i < number_of_lines + 1; i++)
+	for (int i = 0; i < number_of_lines; i++)
 	{
 		std::cout << "\n";
 	}
@@ -134,7 +133,9 @@ void read_story_lines(int starting_line, int ending_line)
 {
 	for (int i = starting_line; i < ending_line + 1; i++)
 	{
-		std::cout << get_story(i) << " \n";
+		(ending_line - starting_line == 0 || i == ending_line)
+			? std::cout << get_story(i)
+			: std::cout << get_story(i) << "\n";
 	}
 	getchar();
 }
@@ -147,9 +148,12 @@ void read_story_scene(int chapter, int stage, int scene)
 			if (scene == 1)
 			{
 				read_story_lines(1, 1);
+				getchar();
 				make_space(1);
 				read_story_lines(3, 5);
+				make_space(1);
 				read_story_lines(7, 7);
+				make_space(1);
 				read_story_lines(9, 9);
 			}
 			if (scene == 2)

@@ -48,8 +48,9 @@ void main()
 	srand((unsigned int)time(NULL));
 
 	player_name = get_player_name();
+	make_space(2);
 	player_profession = get_player_profession();
-	make_space(3);
+	make_space(5);
 
 	story_chapter = 1;
 	story_stage = 1;
@@ -69,7 +70,7 @@ void main()
 		}
 
 		read_story_scene(story_chapter, story_stage, story_scene);
-		make_space(3);
+		make_space(5);
 		story_scene++;
 
 		enemy_name = "Goblin Recruit";
@@ -98,8 +99,8 @@ void main()
 		{
 			if (is_player_turn)
 			{
-				std::cout << "\n-  [" << enemy_name << " | " << enemy_level << "]\n\t\t\t\t" << enemy_current_health << "  |  " << enemy_conditions;
-				std::cout << "\n\n   [" << player_name << " | " << player_level << "]\n\t\t\t\t" << player_current_health << "  |  " << player_conditions << " ";
+				std::cout << "-  [" << enemy_name << " | " << enemy_level << "]\n\t\t\t\t" << enemy_current_health << "  |  " << enemy_conditions;
+				std::cout << "\n\n   [" << player_name << " | " << player_level << "]\n\t\t\t\t" << player_current_health << "  |  " << player_conditions;
 				//player attack selection will go here
 				attack_succeeds = check_hit(player_attack, enemy_evasion);
 				damage_roll = get_damage_roll(attack_succeeds, player_power);
@@ -117,27 +118,27 @@ void main()
 
 				if (attack_succeeds)
 				{
-					std::cout << "\n\n-  " << player_name << " hit " << enemy_name << " for " << (damage_this_turn - enemy_condition_damage) << " damage. ";
+					std::cout << "\n\n-  " << player_name << " hit " << enemy_name << " for " << (damage_this_turn - enemy_condition_damage) << " damage.";
 				}
 				else
 				{
-					std::cout << "\n-  " << player_name << " missed " << enemy_name << ", dealing no damage. ";
+					std::cout << "\n-  " << player_name << " missed " << enemy_name << ", dealing no damage.";
 				}
 
 				getchar();
 				if (player_conditions)
 				{
-					std::cout << "   " << player_name << " took " << player_condition_damage << " damage from status effects. ";
+					std::cout << "   " << player_name << " took " << player_condition_damage << " damage from status effects.";
 					getchar();
 				}
 				if (enemy_conditions)
 				{
-					std::cout << "   " << enemy_name << " took " << enemy_condition_damage << " damage from status effects. ";
+					std::cout << "   " << enemy_name << " took " << enemy_condition_damage << " damage from status effects.";
 					getchar();
 				}
 				if (player_wins && enemy_wins)
 				{
-					std::cout << "\n-  In a twist of fate, " << player_name << " and " << enemy_name << " have slain one another! With this, the quest is no more. ";
+					std::cout << "\n-  In a twist of fate, " << player_name << " and " << enemy_name << " have slain one another! With this, the quest is no more.";
 					combat_continues = false;
 					story_continues = false;
 				}
@@ -145,13 +146,13 @@ void main()
 				{
 					if (player_wins)
 					{
-						std::cout << "\n-  " << player_name << " has slain " << enemy_name << "! ";
+						std::cout << "\n-  " << player_name << " has slain " << enemy_name << "!";
 						getchar();
 						combat_continues = false;
 					}
 					if (enemy_wins)
 					{
-						std::cout << "\n- " << player_name << " has been slain by " << enemy_name << "! ";
+						std::cout << "\n- " << player_name << " has been slain by " << enemy_name << "!";
 						getchar();
 						combat_continues = false;
 						story_continues = false;
@@ -164,7 +165,7 @@ void main()
 			else
 			{
 				std::cout << "\n\n-  [" << enemy_name << " | " << enemy_level << "]\n\t\t\t\t" << enemy_current_health << "  |  " << enemy_conditions;
-				std::cout << "\n\n   [" << player_name << " | " << player_level << "]\n\t\t\t\t" << player_current_health << "  |  " << player_conditions << " \n";
+				std::cout << "\n\n   [" << player_name << " | " << player_level << "]\n\t\t\t\t" << player_current_health << "  |  " << player_conditions << "\n";
 				getchar();
 				//enemy attack selection will go here
 				attack_succeeds = check_hit(enemy_attack, player_evasion);

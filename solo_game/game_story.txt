@@ -6,7 +6,7 @@
 
                   "I'm fairly certain that's a goblin behind you, by the way."
 
--  [Goblin]     : "Reeeeeeeeeeee!" 
+-  [Goblin]     : "Reeeeeeeeeeee!"
 
 -  [Narrator]   : "This is stage 1, scene 2. This phase will contain info and dialogue intended for after combat.
                    If there is no after combat dialogue, this will be left blank.
