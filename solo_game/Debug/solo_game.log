@@ -1,3 +1,5 @@
 ﻿  game_source.cpp
+  game_functions.cpp
+  Generating Code...
   solo_game.vcxproj -> C:\Users\aelay\Documents\GitHub\solo_game\Debug\solo_game.exe
   solo_game.vcxproj -> C:\Users\aelay\Documents\GitHub\solo_game\Debug\solo_game.pdb (Partial PDB)

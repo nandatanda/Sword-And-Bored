@@ -129,6 +129,10 @@ std::string make_space(int number_of_lines)
 	}
 	return divider;
 }
+void read_info_bar(std::string name, int level, int health, int conditions)
+{
+	std::cout << "-  [" << name << " | " << level << "]\n\t\t\t\t" << health << "  |  " << conditions;
+}
 void read_story_lines(int starting_line, int ending_line)
 {
 	for (int i = starting_line; i < ending_line + 1; i++)
@@ -170,6 +174,18 @@ void read_story_scene(int chapter, int stage, int scene)
 		}
 
 	}
+}
+void read_combat_hit(std::string attacker_name, std::string defender_name, int damage)
+{
+	std::cout << "-  " << attacker_name << " hit " << defender_name << " for " << (damage) << " damage.";
+}
+void read_combat_miss(std::string attacker_name, std::string defender_name)
+{
+	std::cout << "-  " << attacker_name << " missed " << defender_name << ", dealing no damage.";
+}
+void read_combat_conditions(std::string name, int damage)
+{
+	std::cout << "   " << name << " took " << damage << " damage from status effects.";
 }
 int get_evasion(std::string profession, int level)
 {
