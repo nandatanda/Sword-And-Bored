@@ -126,7 +126,9 @@ std::string make_space(int number_of_lines)
 }
 void read_info_bar(std::string name, int level, int health, int conditions)
 {
-	std::cout << "-  [" << name << " | " << level << "]\n\t\t\t\t" << health << "  |  " << conditions;
+	(health > 99)
+		? std::cout << "   " << name << "\n\t\t\t   | LV " << level << "  | HP " << health << "  | CO " << conditions << " |"
+		: std::cout << "   " << name << "\n\t\t\t   | LV " << level << "  | HP  " << health << "  | CO " << conditions << " |";
 }
 void read_story_lines(int starting_line, int ending_line)
 {

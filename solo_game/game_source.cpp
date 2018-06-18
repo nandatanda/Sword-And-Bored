@@ -30,6 +30,7 @@ void main()
 	int enemy_condition_damage = 0;
 	int damage_this_turn = 0;
 	int damage_roll = 0;
+	int move_selection = 0;
 	int story_chapter = 0;
 	int story_stage = 0;
 	int story_scene = 0;
@@ -94,19 +95,29 @@ void main()
 		combat_continues = true;
 		is_player_turn = flip_coin();
 
-		make_space(3);
+		make_space(4);
 
 		while (combat_continues)
 		{
 			if (is_player_turn)
 			{
-				make_space(2);
+				make_space(1);
 				read_info_bar(enemy_name, enemy_level, enemy_current_health, enemy_conditions);
-				make_space(2);
+				make_space(1);
 				read_info_bar(player_name, player_level, player_current_health, player_conditions);
 				getchar();
 
-				//player attack selection will go here
+				make_space(5);
+				std::cout << "-  [" << player_name << "]";
+				make_space(2);
+				std::cout << "1) Sword\n";
+				std::cout << "2) Board\n";
+				std::cout << "3) Charge\n";
+				make_space(1);
+				std::cout << ">  ";
+				std::cin >> move_selection;
+				std::cin.ignore();
+
 				attack_succeeds = check_hit(player_attack, enemy_evasion);
 				damage_roll = get_damage_roll(attack_succeeds, player_power);
 				
@@ -121,7 +132,7 @@ void main()
 
 				if (attack_succeeds)
 				{
-					make_space(2);
+					make_space(1);
 					read_combat_hit(player_name, enemy_name, damage_this_turn - enemy_condition_damage);
 				}
 				else
@@ -170,19 +181,19 @@ void main()
 			}
 			else
 			{
-				make_space(2);
+				make_space(1);
 				read_info_bar(enemy_name, enemy_level, enemy_current_health, enemy_conditions);
-				make_space(2);
+				make_space(1);
 				read_info_bar(player_name, player_level, player_current_health, player_conditions);
 				getchar();
-				make_space(2);
 
-				//enemy attack selection will go here
+				make_space(5);
+				std::cout << "-  [" << enemy_name << "]";
+				getchar();
+
 				attack_succeeds = check_hit(enemy_attack, player_evasion);
 				damage_roll = get_damage_roll(attack_succeeds, enemy_power);
 				
-
-
 				player_condition_damage = player_conditions * 2;
 				enemy_condition_damage = enemy_conditions * 2;
 				damage_this_turn = check_damage(damage_roll, player_defense, player_condition_damage);
@@ -194,10 +205,12 @@ void main()
 
 				if (attack_succeeds)
 				{
+					make_space(1);
 					read_combat_hit(enemy_name, player_name, damage_this_turn - enemy_condition_damage);
 				}
 				else
 				{
+					make_space(1);
 					read_combat_miss(player_name, enemy_name);
 				}
 

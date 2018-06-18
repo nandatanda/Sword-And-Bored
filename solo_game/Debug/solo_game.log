@@ -1,20 +1,3 @@
-﻿  game_source.cpp
-  game_functions.cpp
-  Compiling...
-  Generating Code...
+﻿  game_functions.cpp
   solo_game.vcxproj -> C:\Users\aelay\Documents\GitHub\solo_game\Debug\solo_game.exe
   solo_game.vcxproj -> C:\Users\aelay\Documents\GitHub\solo_game\Debug\solo_game.pdb (Partial PDB)
-c:\users\aelay\documents\github\solo_game\solo_game\game_functions.cpp(139): warning C6031: Return value ignored: 'getchar'.
-c:\users\aelay\documents\github\solo_game\solo_game\game_functions.cpp(150): warning C6031: Return value ignored: 'getchar'.
-c:\users\aelay\documents\github\solo_game\solo_game\game_source.cpp(107): warning C6031: Return value ignored: 'getchar'.
-c:\users\aelay\documents\github\solo_game\solo_game\game_source.cpp(133): warning C6031: Return value ignored: 'getchar'.
-c:\users\aelay\documents\github\solo_game\solo_game\game_source.cpp(138): warning C6031: Return value ignored: 'getchar'.
-c:\users\aelay\documents\github\solo_game\solo_game\game_source.cpp(143): warning C6031: Return value ignored: 'getchar'.
-c:\users\aelay\documents\github\solo_game\solo_game\game_source.cpp(158): warning C6031: Return value ignored: 'getchar'.
-c:\users\aelay\documents\github\solo_game\solo_game\game_source.cpp(165): warning C6031: Return value ignored: 'getchar'.
-c:\users\aelay\documents\github\solo_game\solo_game\game_source.cpp(177): warning C6031: Return value ignored: 'getchar'.
-c:\users\aelay\documents\github\solo_game\solo_game\game_source.cpp(204): warning C6031: Return value ignored: 'getchar'.
-c:\users\aelay\documents\github\solo_game\solo_game\game_source.cpp(209): warning C6031: Return value ignored: 'getchar'.
-c:\users\aelay\documents\github\solo_game\solo_game\game_source.cpp(214): warning C6031: Return value ignored: 'getchar'.
-c:\users\aelay\documents\github\solo_game\solo_game\game_source.cpp(229): warning C6031: Return value ignored: 'getchar'.
-c:\users\aelay\documents\github\solo_game\solo_game\game_source.cpp(236): warning C6031: Return value ignored: 'getchar'.
