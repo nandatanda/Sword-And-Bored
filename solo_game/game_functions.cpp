@@ -64,14 +64,9 @@ int reduce_health(int health, int damage)
 int get_damage_roll(bool attsck_succeeds, int power)
 {
 	int damage_roll;
-	if (attsck_succeeds)
-	{
-		damage_roll = 5 * (roll_die(100) + power);
-	}
-	else
-	{
-		damage_roll = 0;
-	}
+	(attsck_succeeds)
+		? damage_roll = 5 * (roll_die(100) + power)
+		: damage_roll = 0;
 	return damage_roll;
 }
 std::string get_player_profession(void)
@@ -186,6 +181,18 @@ void read_combat_miss(std::string attacker_name, std::string defender_name)
 void read_combat_conditions(std::string name, int damage)
 {
 	std::cout << "   " << name << " took " << damage << " damage from status effects.";
+}
+void read_combat_draw(std::string player_name, std::string enemy_name)
+{
+	std::cout << "-  In a twist of fate, " << player_name << " and " << enemy_name << " have slain one another! With this, the quest is no more.";
+}
+void read_combat_win(std::string player_name, std::string enemy_name)
+{
+	std::cout << "\n-  " << player_name << " has slain " << enemy_name << "!";
+}
+void read_combat_loss(std::string player_name, std::string enemy_name)
+{
+	std::cout << "\n- " << player_name << " has been slain by " << enemy_name << "!";
 }
 int get_evasion(std::string profession, int level)
 {

@@ -61,7 +61,7 @@ void main()
 		if (story_scene > 2)
 		{
 			story_scene = 1;
-			story_stage++;
+			story_stage++;			
 		}
 		if (story_stage > 10)
 		{
@@ -109,9 +109,7 @@ void main()
 				//player attack selection will go here
 				attack_succeeds = check_hit(player_attack, enemy_evasion);
 				damage_roll = get_damage_roll(attack_succeeds, player_power);
-				(attack_succeeds)
-					? damage_roll = 5 * (roll_die(100) + player_power) 
-					: damage_roll = 0;
+				
 				player_condition_damage = player_conditions * 2;
 				enemy_condition_damage = enemy_conditions * 2;
 				damage_this_turn = check_damage(damage_roll, enemy_defense, enemy_condition_damage);
@@ -144,11 +142,10 @@ void main()
 					read_combat_conditions(enemy_name, enemy_condition_damage);
 					getchar();
 				}
-
 				if (player_wins && enemy_wins)
 				{
 					make_space(1);
-					std::cout << "-  In a twist of fate, " << player_name << " and " << enemy_name << " have slain one another! With this, the quest is no more.";
+					read_combat_draw(player_name, enemy_name);
 					combat_continues = false;
 					story_continues = false;
 				}
@@ -156,21 +153,20 @@ void main()
 				{
 					if (player_wins)
 					{
-						std::cout << "\n-  " << player_name << " has slain " << enemy_name << "!";
-						getchar();
+						read_combat_win(player_name, enemy_name);
 						combat_continues = false;
+						getchar();
 					}
 					if (enemy_wins)
 					{
-						std::cout << "\n- " << player_name << " has been slain by " << enemy_name << "!";
-						getchar();
+						read_combat_loss(player_name, enemy_name);
 						combat_continues = false;
 						story_continues = false;
+						getchar();
 					}
 				}
 
 				is_player_turn = false;
-
 			}
 			else
 			{
@@ -179,43 +175,48 @@ void main()
 				make_space(2);
 				read_info_bar(player_name, player_level, player_current_health, player_conditions);
 				getchar();
+				make_space(2);
 
 				//enemy attack selection will go here
 				attack_succeeds = check_hit(enemy_attack, player_evasion);
 				damage_roll = get_damage_roll(attack_succeeds, enemy_power);
+				
+
+
 				player_condition_damage = player_conditions * 2;
 				enemy_condition_damage = enemy_conditions * 2;
 				damage_this_turn = check_damage(damage_roll, player_defense, player_condition_damage);
 
-				enemy_current_health = reduce_health(enemy_current_health, enemy_condition_damage);
 				player_current_health = reduce_health(player_current_health, damage_this_turn);
+				enemy_current_health = reduce_health(enemy_current_health, enemy_condition_damage);
 				player_wins = check_win(enemy_current_health);
 				enemy_wins = check_win(player_current_health);
 
 				if (attack_succeeds)
 				{
-					std::cout << "\n\n-  " << enemy_name << " hit " << player_name << " for " << (damage_this_turn - player_condition_damage) << " damage.";
+					read_combat_hit(enemy_name, player_name, damage_this_turn - enemy_condition_damage);
 				}
 				else
 				{
-					std::cout << "\n-  " << enemy_name << " missed " << player_name << ", dealing no damage.";
+					read_combat_miss(player_name, enemy_name);
 				}
 
 				getchar();
+				
 				if (enemy_conditions)
 				{
-					std::cout << "   " << enemy_name << " took " << enemy_condition_damage << " damage from status effects.";
+					read_combat_conditions(enemy_name, enemy_condition_damage);
 					getchar();
 				}
 				if (player_conditions)
 				{
-					std::cout << "   " << player_name << " took " << player_condition_damage << " damage from status effects.";
+					read_combat_conditions(player_name, player_condition_damage);
 					getchar();
 				}
 				if (player_wins && enemy_wins)
 				{
-					std::cout << "\n-  In a twist of fate, " << player_name << " and " << enemy_name << " have slain one another! With this, the quest is no more.";
-					getchar();
+					make_space(1);
+					read_combat_draw(player_name, enemy_name);
 					combat_continues = false;
 					story_continues = false;
 				}
@@ -223,16 +224,16 @@ void main()
 				{
 					if (player_wins)
 					{
-						std::cout << "\n-  " << player_name << " has slain " << enemy_name << "!";
-						getchar();
+						read_combat_win(player_name, enemy_name);
 						combat_continues = false;
+						getchar();
 					}
 					if (enemy_wins)
 					{
-						std::cout << "\n-  " << player_name << " has been slain by " << enemy_name << "!";
-						getchar();
+						read_combat_loss(player_name, enemy_name);
 						combat_continues = false;
 						story_continues = false;
+						getchar();
 					}
 				}
 

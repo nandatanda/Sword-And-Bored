@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DEFECTS>
+  <DEFECT>
+    <SFA>
+      <FILEPATH>c:\users\aelay\documents\github\solo_game\solo_game\</FILEPATH>
+      <FILENAME>game_functions.cpp</FILENAME>
+      <LINE>139</LINE>
+      <COLUMN>8</COLUMN>
+    </SFA>
+    <DEFECTCODE>6031</DEFECTCODE>
+    <DESCRIPTION>Return value ignored: 'getchar'.</DESCRIPTION>
+    <FUNCTION>read_story_lines</FUNCTION>
+    <DECORATED>?read_story_lines@@YAXHH@Z</DECORATED>
+    <FUNCLINE>131</FUNCLINE>
+    <PATH></PATH>
+  </DEFECT>
+  <DEFECT>
+    <SFA>
+      <FILEPATH>c:\users\aelay\documents\github\solo_game\solo_game\</FILEPATH>
+      <FILENAME>game_functions.cpp</FILENAME>
+      <LINE>150</LINE>
+      <COLUMN>11</COLUMN>
+    </SFA>
+    <DEFECTCODE>6031</DEFECTCODE>
+    <DESCRIPTION>Return value ignored: 'getchar'.</DESCRIPTION>
+    <FUNCTION>read_story_scene</FUNCTION>
+    <DECORATED>?read_story_scene@@YAXHHH@Z</DECORATED>
+    <FUNCLINE>141</FUNCLINE>
+    <PATH></PATH>
+  </DEFECT>
+</DEFECTS>
