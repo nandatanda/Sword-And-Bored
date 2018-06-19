@@ -73,13 +73,16 @@ std::string get_player_profession(void)
 {
 	int player_profession_selection = 0;
 	std::string player_profession;
+
 	std::cout << "-  Which profession strikes your fancy?\n\n1) Warrior\n2) Rogue\n3) Mage\n\n>  ";
 	std::cin >> player_profession_selection;
+
 	while (!std::cin >> player_profession_selection || player_profession_selection < 1 || player_profession_selection > 4)
 	{
 		std::cin.clear();
 		std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-		std::cout << "\n>  ";
+		make_space(1);
+		std::cout << ">  ";
 		std::cin >> player_profession_selection;
 	}
 
@@ -92,6 +95,7 @@ std::string get_player_profession(void)
 	case 3: player_profession = "mage";
 		break;
 	}
+
 	return player_profession;
 }
 std::string get_story(int line_number)
@@ -127,8 +131,8 @@ std::string make_space(int number_of_lines)
 void read_info_bar(std::string name, int level, int health, int conditions)
 {
 	(health > 99)
-		? std::cout << "   " << name << "\n\t\t\t   | LV " << level << "  | HP " << health << "  | CO " << conditions << " |"
-		: std::cout << "   " << name << "\n\t\t\t   | LV " << level << "  | HP  " << health << "  | CO " << conditions << " |";
+		? std::cout << "   |  LV " << level << "  |  HP " << health << "  |  CN " << conditions << "  |\t" << name
+		: std::cout << "   |  LV " << level << "  |  HP 0" << health << "  |  CN " << conditions << "  |\t" << name;
 }
 void read_story_lines(int starting_line, int ending_line)
 {
@@ -171,6 +175,112 @@ void read_story_scene(int chapter, int stage, int scene)
 		}
 
 	}
+}
+void read_combat_move(std::string name, std::string move)
+{
+	std::cout << "-  " << name << " used " << move << "!";
+}
+std::string get_move_selection(std::string name, std::string profession)
+{
+	int selection = 0;
+	std::string move_name;
+
+	std::cout << "-  [" << name << "]";
+	make_space(2);
+
+	if (profession == "warrior")
+	{
+		std::cout << "1) Sword";
+		make_space(1);
+		std::cout << "2) Board";
+		make_space(1);
+		std::cout << "3) Charge";
+		make_space(2);
+		std::cout << ">  ";
+		std::cin >> selection;
+
+		while (!std::cin >> selection || selection < 1 || selection > 3)
+		{
+			std::cin.clear();
+			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+			make_space(1);
+			std::cout << ">  ";
+			std::cin >> selection;
+		}
+
+		switch (selection)
+		{
+		case 1: move_name = "sword";
+			break;
+		case 2:  move_name = "board";
+			break;
+		case 3:  move_name = "charge";
+			break;
+		}
+	}
+	if (profession == "rogue")
+	{
+		std::cout << "1) Dagger";
+		make_space(1);
+		std::cout << "2) Stagger";
+		make_space(1);
+		std::cout << "3) Deflect";
+		make_space(2);
+		std::cout << ">  ";
+		std::cin >> selection;
+
+		while (!std::cin >> selection || selection < 1 || selection > 3)
+		{
+			std::cin.clear();
+			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+			make_space(1);
+			std::cout << ">  ";
+			std::cin >> selection;
+		}
+
+		switch (selection)
+		{
+		case 1: move_name = "dagger";
+			break;
+		case 2:  move_name = "stagger";
+			break;
+		case 3:  move_name = "deflect";
+			break;
+		}
+	}
+	if (profession == "mage")
+	{
+		std::cout << "1) Shard";
+		make_space(1);
+		std::cout << "2) Guard";
+		make_space(1);
+		std::cout << "3) Heal";
+		make_space(2);
+		std::cout << ">  ";
+		std::cin >> selection;
+
+		while (!std::cin >> selection || selection < 1 || selection > 3)
+		{
+			std::cin.clear();
+			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+			make_space(1);
+			std::cout << ">  ";
+			std::cin >> selection;
+		}
+
+		switch (selection)
+		{
+		case 1: move_name = "shard";
+			break;
+		case 2:  move_name = "guard";
+			break;
+		case 3:  move_name = "heal";
+			break;
+		}
+	}
+
+	std::cin.ignore();
+	return move_name;
 }
 void read_combat_hit(std::string attacker_name, std::string defender_name, int damage)
 {
