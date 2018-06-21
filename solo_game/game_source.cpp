@@ -33,11 +33,13 @@ void main()
 	int story_chapter = 0;
 	int story_stage = 0;
 	int story_scene = 0;
+	int lurk_counter = 0;
 	std::string player_name;
 	std::string enemy_name;
 	std::string enemy_profession;
 	std::string player_profession;
 	std::string move_selection;
+	std::string move_parameter;
 	bool attack_succeeds = true;
 	bool is_player_turn = true;
 	bool player_wins = false;
@@ -109,6 +111,22 @@ void main()
 
 				make_space(5);
 				move_selection = get_move_selection(player_name, player_profession);
+
+				if (move_selection == "lurk")
+				{
+					lurk_counter++;
+				}
+
+				if (lurk_counter == 1)
+				{
+					move_parameter == "hidden";
+				}
+				else if (lurk_counter > 1)
+				{
+					move_parameter == "poised";
+				}
+				
+
 				make_space(2);
 				read_combat_move(player_name, move_selection);
 				getchar();
@@ -116,8 +134,9 @@ void main()
 				attack_succeeds = check_hit(player_attack, enemy_evasion);
 				damage_roll = get_damage_roll(attack_succeeds, player_power);
 				
-				player_condition_damage = player_conditions * 2;
-				enemy_condition_damage = enemy_conditions * 2;
+				player_condition_damage = player_conditions;
+				enemy_condition_damage = enemy_conditions;
+
 				damage_this_turn = check_damage(damage_roll, enemy_defense, enemy_condition_damage);
 
 				player_current_health = reduce_health(player_current_health, player_condition_damage);
@@ -189,8 +208,9 @@ void main()
 				attack_succeeds = check_hit(enemy_attack, player_evasion);
 				damage_roll = get_damage_roll(attack_succeeds, enemy_power);
 				
-				player_condition_damage = player_conditions * 2;
-				enemy_condition_damage = enemy_conditions * 2;
+				player_condition_damage = player_conditions;
+				enemy_condition_damage = enemy_conditions;
+
 				damage_this_turn = check_damage(damage_roll, player_defense, player_condition_damage);
 
 				player_current_health = reduce_health(player_current_health, damage_this_turn);

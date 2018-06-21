@@ -15,7 +15,7 @@ bool check_hit(int attack, int evasion)
 {
 	bool hit_result;
 	int attack_roll = (roll_die(100) + attack);
-	(attack_roll > evasion) ? hit_result = true : hit_result = false;
+	(attack_roll > roll_die(100) + evasion) ? hit_result = true : hit_result = false;
 	return hit_result;
 }
 bool check_win(int health)
@@ -220,9 +220,9 @@ std::string get_move_selection(std::string name, std::string profession)
 	}
 	if (profession == "rogue")
 	{
-		std::cout << "1) Dagger";
+		std::cout << "1) Poisoned Dagger";
 		make_space(1);
-		std::cout << "2) Stagger";
+		std::cout << "2) Lurk";
 		make_space(1);
 		std::cout << "3) Deflect";
 		make_space(2);
@@ -240,9 +240,9 @@ std::string get_move_selection(std::string name, std::string profession)
 
 		switch (selection)
 		{
-		case 1: move_name = "dagger";
+		case 1: move_name = "poisoned dagger";
 			break;
-		case 2:  move_name = "stagger";
+		case 2:  move_name = "lurk";
 			break;
 		case 3:  move_name = "deflect";
 			break;
