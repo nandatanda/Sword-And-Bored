@@ -11,11 +11,20 @@ int roll_die(int die_sides)
 	int die_result = rand() % die_sides + 1;
 	return die_result;
 }
-bool check_hit(int attack, int evasion)
+bool check_hit(int attack, int evasion, std::string attacker_parameter, std::string defender_parameter)
 {
 	bool hit_result;
-	int attack_roll = (roll_die(100) + attack);
-	(attack_roll > roll_die(100) + evasion) ? hit_result = true : hit_result = false;
+
+	if (defender_parameter == "hidden")
+	{
+		hit_result = false;
+	}
+	else
+	{
+		int attack_roll = (roll_die(100) + attack);
+		(attack_roll > roll_die(100) + evasion) ? hit_result = true : hit_result = false;
+	}
+	
 	return hit_result;
 }
 bool check_win(int health)
@@ -61,13 +70,20 @@ int reduce_health(int health, int damage)
 	int health_result = health - damage;
 	return health_result;
 }
-int get_damage_roll(bool attsck_succeeds, int power)
+int get_damage_roll(bool attsck_succeeds, int power, std::string move, int crit)
 {
 	int damage_roll;
 	(attsck_succeeds)
-		? damage_roll = 5 * (roll_die(100) + power)
+		? damage_roll = (5 + crit) * mod_damage_roll(power, move)
 		: damage_roll = 0;
 	return damage_roll;
+}
+int mod_damage_roll(int power, std::string move)
+{
+	int damage_modifier = roll_die(100) + power;
+
+
+	return damage_modifier;
 }
 std::string get_player_profession(void)
 {
@@ -180,7 +196,7 @@ void read_combat_move(std::string name, std::string move)
 {
 	std::cout << "-  " << name << " used " << move << "!";
 }
-std::string get_move_selection(std::string name, std::string profession)
+std::string get_move_selection(std::string name, std::string profession, std::string parameter)
 {
 	int selection = 0;
 	std::string move_name;
@@ -222,9 +238,11 @@ std::string get_move_selection(std::string name, std::string profession)
 	{
 		std::cout << "1) Poisoned Dagger";
 		make_space(1);
-		std::cout << "2) Lurk";
+		(parameter == "hidden" || parameter == "lurking")
+	    	? std::cout << "2) Backstab"
+	    	: std::cout << "2) Lurk";
 		make_space(1);
-		std::cout << "3) Deflect";
+		std::cout << "3) Blinding Powder";
 		make_space(2);
 		std::cout << ">  ";
 		std::cin >> selection;
@@ -242,9 +260,9 @@ std::string get_move_selection(std::string name, std::string profession)
 		{
 		case 1: move_name = "poisoned dagger";
 			break;
-		case 2:  move_name = "lurk";
+		case 2:  (parameter == "hidden" || parameter == "lurking") ? move_name = "backstab" : move_name = "lurk";
 			break;
-		case 3:  move_name = "deflect";
+		case 3:  move_name = "blinding powder";
 			break;
 		}
 	}
@@ -281,6 +299,26 @@ std::string get_move_selection(std::string name, std::string profession)
 
 	std::cin.ignore();
 	return move_name;
+}
+std::string get_parameter(std::string move_selection, std::string move_parameter)
+{
+	if (move_parameter == "none")
+	{
+		if (move_selection == "lurk")
+		{
+			move_parameter = "hidden";
+		}
+	}
+	else
+	{
+		if (move_parameter == "hidden")
+		{
+			move_parameter = "lurking";
+		}
+	}
+	
+
+	return move_parameter;
 }
 void read_combat_hit(std::string attacker_name, std::string defender_name, int damage)
 {
@@ -410,4 +448,20 @@ int get_power(std::string profession, int level)
 		get_power = 10 + (3 * (level / 2));
 	}
 	return get_power;
+}
+
+int get_crit_counter(std::string move, std::string parameter, int current_crit, int counter)
+{
+	int new_crit = 0;
+
+	if (parameter == "fury")
+	{
+		new_crit = current_crit++;
+	}
+	if (move == "backstab")
+	{
+		new_crit = current_crit + counter;
+	}
+
+	return new_crit;
 }

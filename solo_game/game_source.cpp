@@ -33,13 +33,15 @@ void main()
 	int story_chapter = 0;
 	int story_stage = 0;
 	int story_scene = 0;
-	int lurk_counter = 0;
+	int crit_counter = 0;
+	int player_counter = 0;
 	std::string player_name;
 	std::string enemy_name;
 	std::string enemy_profession;
 	std::string player_profession;
 	std::string move_selection;
-	std::string move_parameter;
+	std::string player_parameter = "none";
+	std::string enemy_parameter;
 	bool attack_succeeds = true;
 	bool is_player_turn = true;
 	bool player_wins = false;
@@ -110,29 +112,22 @@ void main()
 				getchar();
 
 				make_space(5);
-				move_selection = get_move_selection(player_name, player_profession);
-
-				if (move_selection == "lurk")
-				{
-					lurk_counter++;
-				}
-
-				if (lurk_counter == 1)
-				{
-					move_parameter == "hidden";
-				}
-				else if (lurk_counter > 1)
-				{
-					move_parameter == "poised";
-				}
+				move_selection = get_move_selection(player_name, player_profession, player_parameter);
+				player_parameter = get_parameter(move_selection, player_parameter);
 				
+				if (player_parameter == "lurking" && player_counter < 5)
+				{
+					player_counter++;
+				}
+				if (player_parameter == "fury" && player_counter < 5)
+				{
+					player_counter++;
+				}
 
-				make_space(2);
-				read_combat_move(player_name, move_selection);
-				getchar();
-
-				attack_succeeds = check_hit(player_attack, enemy_evasion);
-				damage_roll = get_damage_roll(attack_succeeds, player_power);
+				crit_counter = get_crit_counter(move_selection, player_parameter, crit_counter, player_counter);
+				
+				attack_succeeds = check_hit(player_attack, enemy_evasion, player_parameter, enemy_parameter);
+				damage_roll = get_damage_roll(attack_succeeds, player_power, move_selection, crit_counter);
 				
 				player_condition_damage = player_conditions;
 				enemy_condition_damage = enemy_conditions;
@@ -143,6 +138,10 @@ void main()
 				enemy_current_health = reduce_health(enemy_current_health, damage_this_turn);
 				player_wins = check_win(enemy_current_health);
 				enemy_wins = check_win(player_current_health);
+				
+				make_space(2);
+				read_combat_move(player_name, move_selection);
+				getchar();
 
 				if (attack_succeeds)
 				{
@@ -205,8 +204,8 @@ void main()
 				std::cout << "-  [" << enemy_name << "]";
 				getchar();
 
-				attack_succeeds = check_hit(enemy_attack, player_evasion);
-				damage_roll = get_damage_roll(attack_succeeds, enemy_power);
+				attack_succeeds = check_hit(enemy_attack, player_evasion, enemy_parameter, player_parameter);
+				damage_roll = get_damage_roll(attack_succeeds, enemy_power, move_selection, crit_counter);
 				
 				player_condition_damage = player_conditions;
 				enemy_condition_damage = enemy_conditions;
