@@ -97,6 +97,10 @@ void main()
 		enemy_current_health = enemy_maximum_health;
 
 		combat_continues = true;
+		player_parameter = "none";
+		player_counter = 0;
+		crit_counter = 0;
+
 		is_player_turn = flip_coin();
 
 		make_space(4);
@@ -111,10 +115,15 @@ void main()
 				read_info_bar(enemy_name, enemy_level, enemy_current_health, enemy_conditions);
 				getchar();
 
+				if (player_parameter == "none")
+				{
+					player_counter = 0;
+				}
+
 				make_space(5);
 				move_selection = get_move_selection(player_name, player_profession, player_parameter);
 				player_parameter = get_parameter(move_selection, player_parameter);
-				
+
 				if (player_parameter == "lurking" && player_counter < 5)
 				{
 					player_counter++;
@@ -123,8 +132,9 @@ void main()
 				{
 					player_counter++;
 				}
-
+				
 				crit_counter = get_crit_counter(move_selection, player_parameter, crit_counter, player_counter);
+				std::cout << "\n\n DIAG  ::  CRIT COUNTER = " << crit_counter << "  ||  PLAYER COUNTER = " << player_counter << "\n\n";
 				
 				attack_succeeds = check_hit(player_attack, enemy_evasion, player_parameter, enemy_parameter);
 				damage_roll = get_damage_roll(attack_succeeds, player_power, move_selection, crit_counter);

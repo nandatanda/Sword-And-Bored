@@ -1,0 +1,49 @@
+PROFESSIONS
+
+Warrior
+
+	Abilities
+
+	-	Holy Sword
+
+			Does things about damage and whatnot.
+
+	-	Righteous Fury
+
+			fgkmfgkmfg
+
+	-	Selfless Charge
+
+			dgasdgsfgsfg
+
+Rogue
+
+	Abilities
+
+	-	Poisoned Dagger
+
+			The default attack of a rogue. It deals a small amount of damage, but applies a guaranteed
+			condition on hit. Becomes more dangerous as conditions are applied. Can be used while lurking or
+			hidden.
+			
+			[(5 * (random # out of 100 + power) / defense) + # of conditions ]
+
+	-	Lurk / Backstab
+
+			Using lurk makes the hero impossible to hit for one turn. While the hero is
+			lurking, this ability transforms into 'Backstab', which gains power the longer it
+			goes unused. 
+			
+			[(5 + 2 * number of turns) * (random # out of 100 + power) / defense]
+
+	-	Blinding Powder
+
+			Lowers the attack of enemies, persisting for the remainder of combat. Has a slight chance at
+			applying conditions. Best used against enemies with powerful but innacurate moves to
+			reduce the chance of being defeated in a single blow.
+			
+			[attack - 1] , [chance to apply condition = 20%]
+
+
+Mage
+

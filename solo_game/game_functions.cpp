@@ -206,11 +206,11 @@ std::string get_move_selection(std::string name, std::string profession, std::st
 
 	if (profession == "warrior")
 	{
-		std::cout << "1) Sword";
+		std::cout << "1) Holy Sword";
 		make_space(1);
-		std::cout << "2) Board";
+		std::cout << "2) Righteous Fury";
 		make_space(1);
-		std::cout << "3) Charge";
+		std::cout << "3) Selfless Charge";
 		make_space(2);
 		std::cout << ">  ";
 		std::cin >> selection;
@@ -226,11 +226,11 @@ std::string get_move_selection(std::string name, std::string profession, std::st
 
 		switch (selection)
 		{
-		case 1: move_name = "sword";
+		case 1: move_name = "holy sword";
 			break;
-		case 2:  move_name = "board";
+		case 2:  move_name = "righteous fury";
 			break;
-		case 3:  move_name = "charge";
+		case 3:  move_name = "selfless charge";
 			break;
 		}
 	}
@@ -300,25 +300,31 @@ std::string get_move_selection(std::string name, std::string profession, std::st
 	std::cin.ignore();
 	return move_name;
 }
-std::string get_parameter(std::string move_selection, std::string move_parameter)
+std::string get_parameter(std::string move_selection, std::string player_parameter)
 {
-	if (move_parameter == "none")
+	if (player_parameter == "none")
 	{
 		if (move_selection == "lurk")
 		{
-			move_parameter = "hidden";
+			player_parameter = "hidden";
 		}
 	}
 	else
 	{
-		if (move_parameter == "hidden")
+		if (player_parameter == "hidden")
 		{
-			move_parameter = "lurking";
+			player_parameter = "lurking";
+		}
+		if (player_parameter == "lurking")
+		{
+			if (move_selection == "backstab")
+			{
+				player_parameter = "none";
+			}
 		}
 	}
 	
-
-	return move_parameter;
+	return player_parameter;
 }
 void read_combat_hit(std::string attacker_name, std::string defender_name, int damage)
 {
@@ -454,13 +460,13 @@ int get_crit_counter(std::string move, std::string parameter, int current_crit, 
 {
 	int new_crit = 0;
 
-	if (parameter == "fury")
+	if (parameter == "righteous fury")
 	{
 		new_crit = current_crit++;
 	}
 	if (move == "backstab")
 	{
-		new_crit = current_crit + counter;
+		new_crit = counter * 2;
 	}
 
 	return new_crit;
