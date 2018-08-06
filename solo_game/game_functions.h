@@ -22,6 +22,7 @@ void read_combat_conditions(std::string name, int damage);
 void read_combat_draw(std::string, std::string);
 void read_combat_win(std::string, std::string);
 void read_combat_loss(std::string, std::string);
+void read_game_over(std::string, std::string);
 int get_evasion(std::string profession, int level);
 int get_attack(std::string profession, int level);
 int get_maximum_health(std::string profession, int level);

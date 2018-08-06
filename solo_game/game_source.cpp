@@ -80,7 +80,7 @@ void main()
 		enemy_name = "Goblin Recruit";
 		enemy_profession = "goblin";
 
-		player_level = 30;
+		player_level = 20;
 		player_evasion = get_evasion(player_profession, player_level);
 		player_attack = get_attack(player_profession, player_level);
 		player_maximum_health = get_maximum_health(player_profession, player_level);
@@ -88,7 +88,7 @@ void main()
 		player_power = get_power(player_profession, player_level);
 		player_current_health = player_maximum_health;
 
-		enemy_level = 30;
+		enemy_level = 20;
 		enemy_evasion = get_evasion(enemy_profession, enemy_level);
 		enemy_attack = get_attack(enemy_profession, enemy_level);
 		enemy_maximum_health = get_maximum_health(enemy_profession, enemy_level);
@@ -132,10 +132,13 @@ void main()
 				{
 					player_counter++;
 				}
-				
+
 				crit_counter = get_crit_counter(move_selection, player_parameter, crit_counter, player_counter);
-				std::cout << "\n\n DIAG  ::  CRIT COUNTER = " << crit_counter << "  ||  PLAYER COUNTER = " << player_counter << "\n\n";
-				
+
+				std::cout << "\nDIAG  ::  variable player_parameter is equal to '" << player_parameter << "'.\n";
+				std::cout << "DIAG  ::  variable player_counter is equal to " << player_counter << ".\n";
+				std::cout << "DIAG  ::  variable crit_counter is equal to " << crit_counter << ".";
+
 				attack_succeeds = check_hit(player_attack, enemy_evasion, player_parameter, enemy_parameter);
 				damage_roll = get_damage_roll(attack_succeeds, player_power, move_selection, crit_counter);
 				
@@ -161,7 +164,14 @@ void main()
 				else
 				{
 					make_space(1);
-					read_combat_miss(player_name, enemy_name);
+					if (player_parameter == "hidden")
+					{
+						std::cout << "-  " << player_name << " is preparing a deadly attack.";
+					}
+					else 
+					{
+						read_combat_miss(player_name, enemy_name);
+					}		
 				}
 
 				getchar();
@@ -279,7 +289,9 @@ void main()
 		}
 
 		make_space(5);
-		read_story_scene(story_chapter, story_stage, story_scene);
+		(story_continues)
+			? read_story_scene(story_chapter, story_stage, story_scene)
+			: read_game_over(player_name, enemy_profession);
 		story_scene++;
 		make_space(5);
 	}

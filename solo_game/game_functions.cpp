@@ -15,9 +15,13 @@ bool check_hit(int attack, int evasion, std::string attacker_parameter, std::str
 {
 	bool hit_result;
 
-	if (defender_parameter == "hidden")
+	if (attacker_parameter == "hidden" || defender_parameter == "hidden")
 	{
 		hit_result = false;
+	}
+	else if (attacker_parameter == "backstabbing")
+	{
+		hit_result = true;
 	}
 	else
 	{
@@ -146,9 +150,21 @@ std::string make_space(int number_of_lines)
 }
 void read_info_bar(std::string name, int level, int health, int conditions)
 {
-	(health > 99)
-		? std::cout << "   |  LV " << level << "  |  HP " << health << "  |  CN " << conditions << "  |\t" << name
-		: std::cout << "   |  LV " << level << "  |  HP 0" << health << "  |  CN " << conditions << "  |\t" << name;
+	if (health < 100)
+	{
+		if (health < 10)
+		{
+			std::cout << "   |  LV " << level << "  |  HP 00" << health << "  |  CN " << conditions << "  |\t" << name;
+		}
+		else
+		{
+			std::cout << "   |  LV " << level << "  |  HP 0" << health << "  |  CN " << conditions << "  |\t" << name;
+		}
+	}
+	if (health > 99)
+	{
+		std::cout << "   |  LV " << level << "  |  HP " << health << "  |  CN " << conditions << "  |\t" << name;
+	}
 }
 void read_story_lines(int starting_line, int ending_line)
 {
@@ -302,11 +318,15 @@ std::string get_move_selection(std::string name, std::string profession, std::st
 }
 std::string get_parameter(std::string move_selection, std::string player_parameter)
 {
-	if (player_parameter == "none")
+	if (player_parameter == "none" || player_parameter == "backstabbing")
 	{
 		if (move_selection == "lurk")
 		{
 			player_parameter = "hidden";
+		}
+		else
+		{
+			player_parameter = "none";
 		}
 	}
 	else
@@ -319,7 +339,7 @@ std::string get_parameter(std::string move_selection, std::string player_paramet
 		{
 			if (move_selection == "backstab")
 			{
-				player_parameter = "none";
+				player_parameter = "backstabbing";
 			}
 		}
 	}
@@ -348,7 +368,12 @@ void read_combat_win(std::string player_name, std::string enemy_name)
 }
 void read_combat_loss(std::string player_name, std::string enemy_name)
 {
-	std::cout << "\n- " << player_name << " has been slain by " << enemy_name << "!";
+	std::cout << "\n-  " << player_name << " has been slain by " << enemy_name << "!";
+}
+void read_game_over(std::string, std::string)
+{
+	std::cout << "--  YOU HAVE BEEN DEFEATED! --";
+	getchar();
 }
 int get_evasion(std::string profession, int level)
 {
@@ -464,7 +489,7 @@ int get_crit_counter(std::string move, std::string parameter, int current_crit, 
 	{
 		new_crit = current_crit++;
 	}
-	if (move == "backstab")
+	else if (parameter == "backstabbing")
 	{
 		new_crit = counter * 2;
 	}

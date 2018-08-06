@@ -32,7 +32,7 @@ Rogue
 
 			Using lurk makes the hero impossible to hit for one turn. While the hero is
 			lurking, this ability transforms into 'Backstab', which gains power the longer it
-			goes unused. 
+			goes unused. Backstab always succeeds.
 			
 			[(5 + 2 * number of turns) * (random # out of 100 + power) / defense]
 
