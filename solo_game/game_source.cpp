@@ -11,7 +11,7 @@ void main()
 {
 	int player_experience = 0;
 	int player_level = 0;
-	int player_conditions = 1;
+	int player_conditions = 0;
 	int player_evasion = 0;
 	int player_attack = 0;
 	int player_current_health = 0;
@@ -20,7 +20,7 @@ void main()
 	int player_maximum_health = 0;
 	int player_condition_damage = 0;
 	int enemy_level = 0;
-	int enemy_conditions = 1;
+	int enemy_conditions = 0;
 	int enemy_evasion = 0;
 	int enemy_current_health = 0;
 	int enemy_attack = 0;
@@ -40,6 +40,7 @@ void main()
 	std::string enemy_profession;
 	std::string player_profession;
 	std::string move_selection;
+	std::string enemy_move = "none";
 	std::string player_parameter = "none";
 	std::string enemy_parameter;
 	bool attack_succeeds = true;
@@ -99,6 +100,8 @@ void main()
 		combat_continues = true;
 		player_parameter = "none";
 		player_counter = 0;
+		player_conditions = 0;
+		enemy_conditions = 0;
 		crit_counter = 0;
 
 		is_player_turn = flip_coin();
@@ -124,24 +127,20 @@ void main()
 				move_selection = get_move_selection(player_name, player_profession, player_parameter);
 				player_parameter = get_parameter(move_selection, player_parameter);
 
-				if (player_parameter == "lurking" && player_counter < 5)
-				{
-					player_counter++;
-				}
-				if (player_parameter == "fury" && player_counter < 5)
-				{
-					player_counter++;
-				}
-
-				crit_counter = get_crit_counter(move_selection, player_parameter, crit_counter, player_counter);
+				player_counter = refresh_player_counter(player_parameter, player_counter);
+				crit_counter = refresh_crit_counter(move_selection, player_parameter, crit_counter, player_counter);
 
 				std::cout << "\nDIAG  ::  variable player_parameter is equal to '" << player_parameter << "'.\n";
 				std::cout << "DIAG  ::  variable player_counter is equal to " << player_counter << ".\n";
-				std::cout << "DIAG  ::  variable crit_counter is equal to " << crit_counter << ".";
+				std::cout << "DIAG  ::  variable crit_counter is equal to " << crit_counter << ".\n";
+				std::cout << "DIAG  ::  variable enemy_attack is equal to " << enemy_attack << ".";
 
 				attack_succeeds = check_hit(player_attack, enemy_evasion, player_parameter, enemy_parameter);
 				damage_roll = get_damage_roll(attack_succeeds, player_power, move_selection, crit_counter);
-				
+	
+				enemy_conditions = check_apply_conditions(move_selection, attack_succeeds, enemy_conditions);
+				enemy_attack = check_apply_blindness(move_selection, attack_succeeds, enemy_attack);
+
 				player_condition_damage = player_conditions;
 				enemy_condition_damage = enemy_conditions;
 
@@ -159,19 +158,12 @@ void main()
 				if (attack_succeeds)
 				{
 					make_space(1);
-					read_combat_hit(player_name, enemy_name, damage_this_turn - enemy_condition_damage);
+					read_attack_success(player_name, enemy_name, move_selection, damage_this_turn - enemy_condition_damage);
 				}
 				else
 				{
 					make_space(1);
-					if (player_parameter == "hidden")
-					{
-						std::cout << "-  " << player_name << " is preparing a deadly attack.";
-					}
-					else 
-					{
-						read_combat_miss(player_name, enemy_name);
-					}		
+					read_attack_failure(player_name, enemy_name, move_selection);
 				}
 
 				getchar();
@@ -240,7 +232,7 @@ void main()
 				if (attack_succeeds)
 				{
 					make_space(1);
-					read_combat_hit(enemy_name, player_name, damage_this_turn - enemy_condition_damage);
+					read_attack_success(enemy_name, player_name, enemy_move, damage_this_turn - enemy_condition_damage);
 				}
 				else
 				{

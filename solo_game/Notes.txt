@@ -30,7 +30,7 @@ Rogue
 
 	-	Lurk / Backstab
 
-			Using lurk makes the hero impossible to hit for one turn. While the hero is
+			Using lurk makes the hero impossible to hit for one turn (hidden). While the hero is
 			lurking, this ability transforms into 'Backstab', which gains power the longer it
 			goes unused. Backstab always succeeds.
 			
@@ -42,7 +42,7 @@ Rogue
 			applying conditions. Best used against enemies with powerful but innacurate moves to
 			reduce the chance of being defeated in a single blow.
 			
-			[attack - 1] , [chance to apply condition = 20%]
+			[attack - 20%] , [chance to apply condition = 50%]
 
 
 Mage

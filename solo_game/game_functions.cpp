@@ -74,12 +74,19 @@ int reduce_health(int health, int damage)
 	int health_result = health - damage;
 	return health_result;
 }
-int get_damage_roll(bool attsck_succeeds, int power, std::string move, int crit)
+int get_damage_roll(bool attack_succeeds, int power, std::string move, int crit)
 {
 	int damage_roll;
-	(attsck_succeeds)
-		? damage_roll = (5 + crit) * mod_damage_roll(power, move)
-		: damage_roll = 0;
+	if (move == "blinding powder")
+	{
+		damage_roll = 0;
+	}
+	else
+	{
+		(attack_succeeds)
+			? damage_roll = (5 + crit) * mod_damage_roll(power, move)
+			: damage_roll = 0;
+	}
 	return damage_roll;
 }
 int mod_damage_roll(int power, std::string move)
@@ -88,6 +95,18 @@ int mod_damage_roll(int power, std::string move)
 
 
 	return damage_modifier;
+}
+int refresh_player_counter(std::string parameter, int counter)
+{
+	if (parameter == "lurking" && counter < 5)
+	{
+		counter++;
+	}
+	else if (parameter == "fury" && counter < 5)
+	{
+		counter++;
+	}
+	return counter;
 }
 std::string get_player_profession(void)
 {
@@ -346,9 +365,27 @@ std::string get_parameter(std::string move_selection, std::string player_paramet
 	
 	return player_parameter;
 }
-void read_combat_hit(std::string attacker_name, std::string defender_name, int damage)
+void read_attack_success(std::string attacker_name, std::string defender_name, std::string move_selection, int damage)
 {
-	std::cout << "-  " << attacker_name << " hit " << defender_name << " for " << (damage) << " damage.";
+	if (move_selection == "blinding powder")
+	{
+		std::cout << "-  " << defender_name << " is affected by the harsh powder.";
+	}
+	else
+	{
+		std::cout << "-  " << attacker_name << " hit " << defender_name << " for " << (damage) << " damage.";
+	}
+}
+void read_attack_failure(std::string player_name, std::string enemy_name, std::string move_selection)
+{
+	if (move_selection == "lurk")
+	{
+		read_combat_hidden(player_name);
+	}
+	else
+	{
+		read_combat_miss(player_name, enemy_name);
+	}
 }
 void read_combat_miss(std::string attacker_name, std::string defender_name)
 {
@@ -369,6 +406,10 @@ void read_combat_win(std::string player_name, std::string enemy_name)
 void read_combat_loss(std::string player_name, std::string enemy_name)
 {
 	std::cout << "\n-  " << player_name << " has been slain by " << enemy_name << "!";
+}
+void read_combat_hidden(std::string player_name)
+{
+		std::cout << "-  " << player_name << " is preparing a deadly attack.";
 }
 void read_game_over(std::string, std::string)
 {
@@ -481,7 +522,7 @@ int get_power(std::string profession, int level)
 	return get_power;
 }
 
-int get_crit_counter(std::string move, std::string parameter, int current_crit, int counter)
+int refresh_crit_counter(std::string move, std::string parameter, int current_crit, int counter)
 {
 	int new_crit = 0;
 
@@ -495,4 +536,29 @@ int get_crit_counter(std::string move, std::string parameter, int current_crit, 
 	}
 
 	return new_crit;
+}
+
+int check_apply_conditions(std::string move, bool move_hits, int conditions)
+{
+	if (move == "poisoned dagger" && move_hits)
+	{
+		conditions++;
+	}
+	else if (move == "blinding powder" && move_hits)
+	{
+		if (roll_die(100) > 50)
+		{
+			conditions++;
+		}
+	}
+	return conditions;
+}
+
+int check_apply_blindness(std::string move, bool move_hits , int attack)
+{
+	if (move == "blinding powder" && move_hits)
+	{
+		attack = attack - (attack / 5);
+	}
+	return attack;
 }
