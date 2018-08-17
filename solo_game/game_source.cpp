@@ -89,7 +89,7 @@ void main()
 		player_power = get_power(player_profession, player_level);
 		player_current_health = player_maximum_health;
 
-		enemy_level = 20;
+		enemy_level = 30;
 		enemy_evasion = get_evasion(enemy_profession, enemy_level);
 		enemy_attack = get_attack(enemy_profession, enemy_level);
 		enemy_maximum_health = get_maximum_health(enemy_profession, enemy_level);
