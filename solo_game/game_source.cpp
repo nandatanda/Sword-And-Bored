@@ -29,6 +29,7 @@ void main()
 	int enemy_maximum_health = 0;
 	int enemy_condition_damage = 0;
 	int damage_this_turn = 0;
+	int physical_damage = 0;
 	int damage_roll = 0;
 	int story_chapter = 0;
 	int story_stage = 0;
@@ -39,8 +40,8 @@ void main()
 	std::string enemy_name;
 	std::string enemy_profession;
 	std::string player_profession;
-	std::string move_selection;
-	std::string enemy_move = "none";
+	std::string player_move_selection;
+	std::string enemy_move_selection = "none";
 	std::string player_parameter = "none";
 	std::string enemy_parameter;
 	bool attack_succeeds = true;
@@ -89,7 +90,7 @@ void main()
 		player_power = get_power(player_profession, player_level);
 		player_current_health = player_maximum_health;
 
-		enemy_level = 30;
+		enemy_level = 40;
 		enemy_evasion = get_evasion(enemy_profession, enemy_level);
 		enemy_attack = get_attack(enemy_profession, enemy_level);
 		enemy_maximum_health = get_maximum_health(enemy_profession, enemy_level);
@@ -124,11 +125,11 @@ void main()
 				}
 
 				make_space(5);
-				move_selection = get_move_selection(player_name, player_profession, player_parameter);
-				player_parameter = get_parameter(move_selection, player_parameter);
+				player_move_selection = get_move_selection(player_name, player_profession, player_parameter);
+				player_parameter = get_parameter(player_move_selection, player_parameter);
 
 				player_counter = refresh_player_counter(player_parameter, player_counter);
-				crit_counter = refresh_crit_counter(move_selection, player_parameter, crit_counter, player_counter);
+				crit_counter = refresh_crit_counter(player_move_selection, player_parameter, crit_counter, player_counter);
 
 				std::cout << "\nDIAG  ::  variable player_parameter is equal to '" << player_parameter << "'.\n";
 				std::cout << "DIAG  ::  variable player_counter is equal to " << player_counter << ".\n";
@@ -136,15 +137,16 @@ void main()
 				std::cout << "DIAG  ::  variable enemy_attack is equal to " << enemy_attack << ".";
 
 				attack_succeeds = check_hit(player_attack, enemy_evasion, player_parameter, enemy_parameter);
-				damage_roll = get_damage_roll(attack_succeeds, player_power, move_selection, crit_counter);
+				damage_roll = get_damage_roll(attack_succeeds, player_power, player_move_selection, crit_counter);
 	
-				enemy_conditions = check_apply_conditions(move_selection, attack_succeeds, enemy_conditions);
-				enemy_attack = check_apply_blindness(move_selection, attack_succeeds, enemy_attack);
+				enemy_conditions = check_apply_conditions(player_move_selection, attack_succeeds, enemy_conditions);
+				enemy_attack = check_apply_blindness(player_move_selection, attack_succeeds, enemy_attack);
 
 				player_condition_damage = player_conditions;
 				enemy_condition_damage = enemy_conditions;
 
 				damage_this_turn = check_damage(damage_roll, enemy_defense, enemy_condition_damage);
+				physical_damage = damage_this_turn - enemy_condition_damage;
 
 				player_current_health = reduce_health(player_current_health, player_condition_damage);
 				enemy_current_health = reduce_health(enemy_current_health, damage_this_turn);
@@ -152,18 +154,18 @@ void main()
 				enemy_wins = check_win(player_current_health);
 				
 				make_space(2);
-				read_combat_move(player_name, move_selection);
+				read_combat_move(player_name, player_move_selection);
 				getchar();
+
+				make_space(1);
 
 				if (attack_succeeds)
 				{
-					make_space(1);
-					read_attack_success(player_name, enemy_name, move_selection, damage_this_turn - enemy_condition_damage);
+					read_player_attack_success(player_name, enemy_name, player_move_selection, physical_damage);
 				}
 				else
 				{
-					make_space(1);
-					read_attack_failure(player_name, enemy_name, move_selection);
+					read_player_attack_failure(player_name, enemy_name, player_move_selection);
 				}
 
 				getchar();
@@ -204,7 +206,8 @@ void main()
 
 				is_player_turn = false;
 			}
-			else
+
+			else if (!is_player_turn)
 			{
 				make_space(1);
 				read_info_bar(player_name, player_level, player_current_health, player_conditions);
@@ -217,12 +220,13 @@ void main()
 				getchar();
 
 				attack_succeeds = check_hit(enemy_attack, player_evasion, enemy_parameter, player_parameter);
-				damage_roll = get_damage_roll(attack_succeeds, enemy_power, move_selection, crit_counter);
+				damage_roll = get_damage_roll(attack_succeeds, enemy_power, player_move_selection, crit_counter);
 				
 				player_condition_damage = player_conditions;
 				enemy_condition_damage = enemy_conditions;
 
 				damage_this_turn = check_damage(damage_roll, player_defense, player_condition_damage);
+				physical_damage = damage_this_turn - enemy_condition_damage;
 
 				player_current_health = reduce_health(player_current_health, damage_this_turn);
 				enemy_current_health = reduce_health(enemy_current_health, enemy_condition_damage);
@@ -232,12 +236,12 @@ void main()
 				if (attack_succeeds)
 				{
 					make_space(1);
-					read_attack_success(enemy_name, player_name, enemy_move, damage_this_turn - enemy_condition_damage);
+					read_enemy_attack_success(player_name, enemy_name, enemy_move_selection, physical_damage);
 				}
 				else
 				{
 					make_space(1);
-					read_combat_miss(enemy_name, player_name);
+					read_enemy_attack_failure(player_name, enemy_name, enemy_move_selection);
 				}
 
 				getchar();
